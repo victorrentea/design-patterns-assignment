@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/user/john"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+        "id": 10,
+        "age": 20,
+        "fullName": "John Doe",
+        "gisHome": "cde",
+        "phoneNumber": "999",
+        "hoursRided": 100,
+        "averageSpeed": 30,
+        "averageRideSeconds": 600,
+        "averageRidePower": 600
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
