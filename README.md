@@ -10,6 +10,8 @@ patterns you can imagine.
 If lacking ideas, consider:
 
 - **Adapter** + a new Domain class to return from it
+- Implement **Dependency Inversion** between different packages (move the Adapter in an `infra` package and use ArchUnit
+  to check that domain does NOT depend on infra)
 - **Repository** encapsulating the (very ugly) raw JDBC access
 - Exposing **Dtos** from your REST API (@GetMapping method), instead of central Entities
 - Isolate the filtering rules in a class that only works on structures that I control (that is, in a **Domain Service**)
@@ -24,3 +26,13 @@ If lacking ideas, consider:
 - **Observer** Pattern to insert the audit "out of band", without direct coupling of our code to it
 - **Command** Pattern/DTO to encapsulate the two input parameters as an object
 - **Filters** that remove (or allow) a Lemon to pass the search criteria
+
+## Tests
+
+God smiled upon this project so there is ONE end-to-end smoke test going through all the code. Try to keep it green.
+
+If you want start the app and test it manually:
+
+1. run StartWireMock
+2. run LemonApp
+3. go to http://localhost:8080/?username=john&gisLocation=abc
