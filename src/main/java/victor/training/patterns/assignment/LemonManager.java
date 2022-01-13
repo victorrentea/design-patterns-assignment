@@ -16,12 +16,9 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 @RestController
 public class LemonManager {
-
    private static final Logger log = LoggerFactory.getLogger(LemonManager.class);
    private final DataSource dataSource;
 
@@ -31,13 +28,11 @@ public class LemonManager {
 
    @GetMapping
    List<Lemon> findNearbyLemons(@RequestParam String gisLocation, @RequestParam String username) throws IOException {
-      Properties properties = new Properties();
-      properties.load(LemonManager.class.getResourceAsStream("/application.properties"));
-      String getUserProfileUrlTemplate = properties.getProperty("getUserUrl");
-//      RequestEntity<?> requestEntity = RequestEntity.get(getUserProfileUrlTemplate, username) // TODO replace the line below
-      RequestEntity<?> requestEntity = RequestEntity.get("http://localhost:8081/user/{username}", username)
+      String getUserProfileUrlTemplate = new ConfigManager().getConfig("getUserUrl");
+      RequestEntity<?> requestEntity = RequestEntity.get(getUserProfileUrlTemplate, username) // TODO replace the line below
+//      RequestEntity<?> requestEntity = RequestEntity.get("http://localhost:8081/user/{username}", username)
           .accept(MediaType.APPLICATION_JSON)
-          .header("Api-Token", properties.getProperty("apiToken"))
+          .header("Api-Token", new ConfigManager().getConfig("apiToken"))
           .build();
       ResponseEntity<UserProfileDto> response = new RestTemplate().exchange(requestEntity, UserProfileDto.class);
       UserProfileDto userProfileDto = response.getBody();
@@ -84,4 +79,6 @@ public class LemonManager {
 
       return matchingLemons;
    }
+
+
 }
